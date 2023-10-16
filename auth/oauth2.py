@@ -7,10 +7,11 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from services.user_services import get_user_by_username_service
 from typing import Annotated
+from auth.giga_secret_key import key
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-SECRET_KEY = '6705483894af50f1f356d7e166df62f2a9277701b7588daf1595ddd1cabf0e76'
+SECRET_KEY = key
 ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
