@@ -12,12 +12,12 @@ router = APIRouter(
 )
 
 
-@router.get('/all/{post_id}', status_code=200)
+@router.get('/all/{post_id}', status_code=200, summary='Fetch all comments for post.')
 def comments(post_id: int, db: Annotated[Session, Depends(get_db)]):
     return get_all_service(post_id, db)
 
 
-@router.post('/', status_code=201)
+@router.post('/', status_code=201, summary='Create comment.')
 def create(request: CommentBase,
            db: Annotated[Session, Depends(get_db)], current_user: Annotated[UserAuth, Depends(get_current_user)]):
     create_service(request, db, current_user.username)

@@ -16,19 +16,19 @@ router = APIRouter(
 )
 
 
-@router.post('/', response_model=PostDisplay)
+@router.post('/', response_model=PostDisplay, summary='Create post.')
 def create(request: PostBase,
            db: Annotated[Session, Depends(get_db)],
            current_user: Annotated[UserAuth, Depends(get_current_user)]):
     return create_post_service(request, db, current_user.id)
 
 
-@router.get('/all', response_model=List[PostDisplay])
+@router.get('/all', response_model=List[PostDisplay], summary='Fetch all posts.')
 def posts(db: Annotated[Session, Depends(get_db)]):
     return get_all_posts_service(db)
 
 
-@router.post('/image')
+@router.post('/image', summary='Upload an image.')
 def upload_image(image: Annotated[UploadFile, File(...)], current_user: Annotated[UserAuth, Depends(get_current_user)]):
     rand_str = ''.join(random.choice(string.ascii_letters) for _ in range(6))
     new = f'_{rand_str}.'
@@ -40,6 +40,6 @@ def upload_image(image: Annotated[UploadFile, File(...)], current_user: Annotate
     return {'filename': path}
 
 
-@router.delete('/delete/{id}', status_code=204)
+@router.delete('/delete/{id}', status_code=204, summary='Delete post')
 def delete(id: int, db: Annotated[Session, Depends(get_db)], current_user: Annotated[UserAuth, Depends(get_current_user)]):
     return delete_post_service(id, db, current_user.id)
