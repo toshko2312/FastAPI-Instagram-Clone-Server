@@ -25,7 +25,6 @@ class PostBase(BaseModel):
     image_url: str
     image_url_type: ImageUrlTypes
     caption: str
-    creator_id: int
 
 
 class User(BaseModel):

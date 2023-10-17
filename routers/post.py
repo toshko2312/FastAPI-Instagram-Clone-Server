@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, UploadFile, File
 from sqlalchemy.orm import Session
-from services.post_services import create_post_service, get_all_posts_service
+from services.post_services import create_post_service, get_all_posts_service, delete_post_service
 from db.schemas import PostBase, PostDisplay, UserAuth
 from db.database import get_db
 from typing import Annotated, List
@@ -20,7 +20,7 @@ router = APIRouter(
 def create(request: PostBase,
            db: Annotated[Session, Depends(get_db)],
            current_user: Annotated[UserAuth, Depends(get_current_user)]):
-    return create_post_service(request, db)
+    return create_post_service(request, db, current_user.id)
 
 
 @router.get('/all', response_model=List[PostDisplay])
@@ -38,3 +38,8 @@ def upload_image(image: Annotated[UploadFile, File(...)], current_user: Annotate
     with open(path, 'w+b') as buffer:
         shutil.copyfileobj(image.file, buffer)
     return {'filename': path}
+
+
+@router.delete('/delete/{id}', status_code=204)
+def delete(id: int, db: Annotated[Session, Depends(get_db)], current_user: Annotated[UserAuth, Depends(get_current_user)]):
+    return delete_post_service(id, db, current_user.id)
