@@ -1,8 +1,7 @@
 from datetime import datetime
 from enum import Enum
-
 from pydantic import BaseModel, constr, Field
-from typing import Annotated
+from typing import Annotated, List
 
 
 class UserBase(BaseModel):
@@ -31,6 +30,12 @@ class User(BaseModel):
     username: str
 
 
+class Comment(BaseModel):
+    text: str
+    username: str
+    timestamp: datetime
+
+
 class PostDisplay(BaseModel):
     id: int
     image_url: str
@@ -38,9 +43,15 @@ class PostDisplay(BaseModel):
     caption: str
     timestamp: datetime
     user: User
+    comments: List[Comment]
 
 
 class UserAuth(BaseModel):
     id: int
     username: str
     email: str
+
+
+class CommentBase(BaseModel):
+    text: str
+    post_id: int
