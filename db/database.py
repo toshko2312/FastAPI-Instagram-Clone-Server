@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from db.password import password
 
-SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://root:{password}@localhost:3306/fastapi_instagram_clone"
+SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://root:{password}@host.docker.internal/fastapi_instagram_clone"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
